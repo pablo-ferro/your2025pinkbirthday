@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Severance Access</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+            margin: 0;
+        }
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            opacity: 0; /* Initially hidden */
+            transition: opacity 0.5s ease;
+        }
+        .background.visible {
+            opacity: 1; /* Make visible */
+        }
+        .container {
+            z-index: 1;
+            position: relative;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background for readability */
+            padding: 20px;
+            border-radius: 10px;
+        }
+        input {
+            padding: 10px;
+            font-size: 1.2rem;
+            text-align: center;
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px;
+            font-size: 1.2rem;
+            margin-top: 10px;
+            background-color: white;
+            color: black;
+            border: none;
+            cursor: pointer;
+        }
+        #message {
+            margin-top: 20px;
+            font-size: 1.2rem;
+        }
+        .logo {
+            width: 150px;
+            margin-bottom: 10px;
+            opacity: 0; /* Initially hidden */
+            transition: opacity 0.5s ease;
+        }
+        .header {
+            position: absolute;
+            top: 20px;
+            text-align: center;
+            opacity: 0; /* Initially hidden */
+            transition: opacity 0.5s ease;
+        }
+        .visible {
+            opacity: 1; /* Make visible */
+        }
+        #countdown {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="background" id="background"></div>
+    <div class="header" id="header">
+        <img src="https://media.licdn.com/dms/image/v2/C560BAQGF7pVdjmH8AA/company-logo_200_200/company-logo_200_200/0/1645202708267/lumon_industries_logo?e=2147483647&v=beta&t=wLlbt9GwIKkK1_V4RXJ06j6JdwH4FBXbPIHh44a4weg" alt="Lumon Industries Logo" class="logo">
+        <h3>Nathorstvägen 21C Headquarters</h3>
+        <h3>Digital Marketing Refinement</h3>
+    </div>
+    <div class="container">
+        <div id="countdown"></div>
+        <h1 id="game-question"></h1>
+        <input type="text" id="input" placeholder="VIP key to start earlier">
+        <button onclick="checkAnswer()">Submit</button>
+        <p id="message"></p>
+    </div>
+    <script>
+        let currentGame = 0; // Start at 0 to indicate countdown phase
+        const games = [
+            { question: "A small sleepy ________ is trapped on a warm cozy bath surrounded by oranges, and it is about to boil!", answer: "CAPYBARA", background: "https://hips.hearstapps.com/hmg-prod/images/chinese-new-year-zodiac-signs-papercut-icons-royalty-free-illustration-1609879067.?crop=0.998xw:0.667xh;0,0&resize=1200:*" },
+            { question: "All my chocolate bars in the backstage disappeared, might be ___ son", answer: "KIR", background: "https://i0.wp.com/www.homemakershabitat.com/wp-content/uploads/2021/02/ChineseHotPot-3.jpg?fit=1200%2C801&ssl=1" },
+            { question: "A must for your coziest day", answer: "NAP", background: "https://www.pacificflying.com/wp-content/uploads/Magda-Ehlers-clouds.jpg" },
+            { question: "Keep your mind on the distance. ____C_D____", answer: "ABRACADABRA", background: "https://images.squarespace-cdn.com/content/v1/518f9fcbe4b0dde685f7378e/1538150976410-8SUHDMYNMIQF9N2I6CNP/Adelaide+Herrmann.jpg" },
+            { question: "Your ______ is just a stranger.", answer: "OUTIE", background: "" }
+        ];
+
+        const countdownDate = new Date("February 27, 2025 00:00:00").getTime();
+        const backgroundElement = document.getElementById('background');
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+
+            if (distance <= 0) {
+                document.getElementById('countdown').innerHTML = "The game is now available!";
+                startGame();
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown').innerHTML = ` Time remaining for unleashing your birthday present: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+            setTimeout(updateCountdown, 1000);
+        }
+
+        function startGame() {
+            currentGame = 1;
+            document.getElementById('game-question').textContent = games[0].question;
+            document.getElementById('input').placeholder = "Enter your answer";
+            backgroundElement.style.backgroundImage = `url('${games[0].background}')`;
+            backgroundElement.classList.add('visible');
+        }
+
+        function checkAnswer() {
+            const input = document.getElementById('input').value.trim().toUpperCase();
+            const message = document.getElementById('message');
+            const gameQuestion = document.getElementById('game-question');
+            const header = document.getElementById('header');
+
+            if (currentGame === 0 && input === "FRATERNALIA4545") {
+                startGame();
+                return;
+            }
+
+            if (currentGame === 0) return; // Do nothing if countdown is active
+
+            if (input === games[currentGame - 1].answer) {
+                if (currentGame === 5) {
+                    message.innerHTML = "Chongjun Z., Thank you for your loyalty with Lumon, you may access our special elevator, but your red key won't be enough. When entering the Cave of Recognition, be careful, the Red Dragon is still sleeping.";
+                    message.style.color = "lightgreen";
+                    header.classList.add('visible');
+                } else {
+                    message.innerHTML = "Correct! Moving to the next game...";
+                    message.style.color = "lightgreen";
+                    currentGame++;
+                    gameQuestion.textContent = games[currentGame - 1].question;
+                    document.getElementById('input').value = '';
+                    backgroundElement.style.backgroundImage = `url('${games[currentGame - 1].background}')`;
+                }
+            } else {
+                if (currentGame === 5) {
+                    message.innerHTML = "Ms. Huang took note of your unprofessional merritment";
+                } else {
+                    message.innerHTML = "Incorrect answer. Try again.";
+                }
+                message.style.color = "red";
+            }
+        }
+
+        // Set initial background for countdown page
+        backgroundElement.style.backgroundImage = "url('https://wehotimes.com/wp-content/uploads/2025/02/Chappell-Roan.jpg')";
+        backgroundElement.classList.add('visible');
+
+        updateCountdown();
+    </script>
+</body>
+</html>
