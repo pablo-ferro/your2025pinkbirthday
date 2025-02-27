@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Severance Access</title>
+    <title>The Birthday Challenge</title>
     <style>
         body {
             background-color: black;
@@ -110,15 +110,24 @@
         let currentGame = 0; // Start at 0 to indicate countdown phase
         const games = [
             { question: "A small sleepy ________ is trapped on a warm cozy bath surrounded by oranges, and it is about to boil!", answer: "CAPYBARA", background: "https://hips.hearstapps.com/hmg-prod/images/chinese-new-year-zodiac-signs-papercut-icons-royalty-free-illustration-1609879067.?crop=0.998xw:0.667xh;0,0&resize=1200:*" },
-            { question: "All my chocolate bars in the backstage disappeared, might be ___ son", answer: "KIR", background: "https://i0.wp.com/www.homemakershabitat.com/wp-content/uploads/2021/02/ChineseHotPot-3.jpg?fit=1200%2C801&ssl=1" },
+            { question: "Your capybara has a message for you in their backpack, what is the title?", answer: "THE SNOWS OF KILIMANJARO", background: "https://www.moshimoshi-nippon.jp/wp/wp-content/uploads/2020/12/5007c96c8ec4384577d02ac0d262a7e3.jpg" },
+            { question: "Introduce the 28th word from page 2 of the book.", answer: "EASY", background: "https://cdn.britannica.com/34/153434-050-863E8023/Mount-Kilimanjaro-Tanzania.jpg" },
+            { question: "All my chocolate bars in the backstage disappeared, might be __son", answer: "KIR", background: "https://i0.wp.com/www.homemakershabitat.com/wp-content/uploads/2021/02/ChineseHotPot-3.jpg?fit=1200%2C801&ssl=1" },
             { question: "A must for your coziest day", answer: "NAP", background: "https://www.pacificflying.com/wp-content/uploads/Magda-Ehlers-clouds.jpg" },
             { question: "Keep your mind on the distance. ____C_D____", answer: "ABRACADABRA", background: "https://images.squarespace-cdn.com/content/v1/518f9fcbe4b0dde685f7378e/1538150976410-8SUHDMYNMIQF9N2I6CNP/Adelaide+Herrmann.jpg" },
             { question: "Your ______ is just a stranger.", answer: "OUTIE", background: "https://static1.srcdn.com/wordpress/wp-content/uploads/2022/02/Full-Computer-Screen-Severance-episode-1.jpg" }
         ];
 
-        const countdownDate = new Date("February 27, 2025 00:00:00").getTime();
+        const countdownDate = new Date("February 28, 2025 11:00:00").getTime();
         const backgroundElement = document.getElementById('background');
         const header = document.getElementById('header');
+
+        // Listen for Enter key press in the input field
+        document.getElementById('input').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                checkAnswer();
+            }
+        });
 
         function updateCountdown() {
             const now = new Date().getTime();
@@ -154,7 +163,7 @@
             const message = document.getElementById('message');
             const gameQuestion = document.getElementById('game-question');
 
-            if (currentGame === 0 && input === "FRATERNALIA") {
+            if (currentGame === 0 && input === "FRATERNO") {
                 startGame();
                 return;
             }
@@ -162,7 +171,7 @@
             if (currentGame === 0) return; // Do nothing if countdown is active
 
             if (input === games[currentGame - 1].answer) {
-                if (currentGame === 5) {
+                if (currentGame === games.length) {
                     message.innerHTML = `
                         <div class="final-message">
                             Chongjun Z., Thank you for your loyalty with Lumon, you may access our special elevator, but your red key won't be enough.<br>
@@ -172,21 +181,27 @@
                     message.style.color = "lightgreen";
                     header.classList.add('visible'); // Show header
                 } else {
-                    message.innerHTML = "Correct! Moving to the next game...";
+                    message.innerHTML = "Compliance acknowledged. Advancing to the subsequent task...";
                     message.style.color = "lightgreen";
-                    currentGame++;
-                    gameQuestion.textContent = games[currentGame - 1].question;
-                    document.getElementById('input').value = '';
-                    document.getElementById('input').placeholder = "Enter your answer"; // Reset placeholder
-                    backgroundElement.style.backgroundImage = `url('${games[currentGame - 1].background}')`;
+                    // Show correct answer image
+                    backgroundElement.style.backgroundImage = "url('https://static0.cbrimages.com/wordpress/wp-content/uploads/2024/10/severance-season-2-milchick-balloons.jpg')";
+                    setTimeout(() => {
+                        currentGame++;
+                        gameQuestion.textContent = games[currentGame - 1].question;
+                        document.getElementById('input').value = '';
+                        document.getElementById('input').placeholder = "Enter your answer"; // Reset placeholder
+                        backgroundElement.style.backgroundImage = `url('${games[currentGame - 1].background}')`;
+                    }, 2000); // Delay before moving to the next question
                 }
             } else {
-                if (currentGame === 5) {
+                if (currentGame === games.length) {
                     message.innerHTML = "Ms. Huang took note of your unprofessional merritment";
                 } else {
-                    message.innerHTML = "Incorrect answer. Try again.";
+                    message.innerHTML = "Deviation detected. Reattempt required.";
                 }
                 message.style.color = "red";
+                // Show wrong answer image
+                backgroundElement.style.backgroundImage = "url('https://legendary-digital-network-assets.s3.amazonaws.com/wp-content/uploads/2025/02/14113331/Seth-Milchick-Severance.jpg')";
             }
         }
 
